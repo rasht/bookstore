@@ -98,6 +98,8 @@ $is_IE = ( $is_macIE || $is_winIE );
  * @global bool $is_apache
  */
 $is_apache = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false || strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false);
+#Hatef
+#$is_apache = 1;
 
 /**
  * Whether the server software is Nginx or something else
