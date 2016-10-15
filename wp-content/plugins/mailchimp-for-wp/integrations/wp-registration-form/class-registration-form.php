@@ -53,9 +53,10 @@ class MC4WP_Registration_Form_Integration extends MC4WP_User_Integration {
 			return false;
 		}
 
-		$data = $this->user_merge_vars( $user );
+		$email = $user->user_email;
+		$merge_vars = $this->user_merge_vars( $user );
 
-		return $this->subscribe( $data, $user_id );
+		return $this->subscribe( $email, $merge_vars, $user_id );
 	}
 	/* End registration form functions */
 

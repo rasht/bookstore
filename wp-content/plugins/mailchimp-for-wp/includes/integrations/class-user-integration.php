@@ -18,32 +18,34 @@ abstract class MC4WP_User_Integration extends MC4WP_Integration {
 	protected function user_merge_vars( WP_User $user ) {
 
 		// start with user_login as name, since that's always known
-        $data = array(
-			'EMAIL' => $user->user_email,
+		$merge_vars = array(
 			'NAME' => $user->user_login,
 		);
 
 		if( '' !== $user->first_name ) {
-            $data['NAME'] = $user->first_name;
-            $data['FNAME'] = $user->first_name;
+			$merge_vars['NAME'] = $user->first_name;
+			$merge_vars['FNAME'] = $user->first_name;
 		}
 
 		if( '' !== $user->last_name ) {
-            $data['LNAME'] = $user->last_name;
+			$merge_vars['LNAME'] = $user->last_name;
 		}
 
 		if( '' !== $user->first_name && '' !== $user->last_name ) {
-            $data['NAME'] = sprintf( '%s %s', $user->first_name, $user->last_name );
+			$merge_vars['NAME'] = sprintf( '%s %s', $user->first_name, $user->last_name );
 		}
 
 		/**
+		 * Filters the merge vars which are sent to MailChimp, extracted from the user object.
+		 *
 		 * @since 3.0
-		 * @deprecated 4.0
-         * @ignore
+		 *
+		 * @param array $merge_vars
+		 * @param WP_User $user
 		 */
-		$data = (array) apply_filters( 'mc4wp_user_merge_vars', $data, $user );
+		$merge_vars = (array) apply_filters( 'mc4wp_user_merge_vars', $merge_vars, $user );
 
-		return $data;
+		return $merge_vars;
 	}
 
 }

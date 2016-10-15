@@ -25,7 +25,7 @@ class MC4WP_Contact_Form_7_Integration extends MC4WP_Integration {
 	 */
 	public function add_hooks() {
 		add_action( 'wpcf7_init', array( $this, 'init') );
-		add_action( 'wpcf7_mail_sent', array( $this, 'process' ), 1 );
+		add_action( 'wpcf7_mail_sent', array( $this, 'process' ) );
 		add_action( 'wpcf7_posted_data', array( $this, 'alter_cf7_data') );
 	}
 
@@ -66,7 +66,7 @@ class MC4WP_Contact_Form_7_Integration extends MC4WP_Integration {
 	* @return array
 	*/
 	public function alter_cf7_data( $data = array() ) {
-		$data['mc4wp_checkbox'] = $this->checkbox_was_checked() ? __( 'Yes' ) : __( 'No' );
+		$data['mc4wp_checkbox'] = $this->checkbox_was_checked() ? __( 'Yes', 'mailchimp-for-wp' ) : __( 'No', 'mailchimp-for-wp' );
 		return $data;
 	}
 
@@ -90,11 +90,10 @@ class MC4WP_Contact_Form_7_Integration extends MC4WP_Integration {
 
 		// do nothing if no email was found
 		if( empty( $data['EMAIL'] ) ) {
-            $this->get_log()->warning( sprintf( '%s > Unable to find EMAIL field.', $this->name ) );
-            return false;
+			return false;
 		}
 
-		return $this->subscribe( $data, $cf7_form->id() );
+		return $this->subscribe( $data['EMAIL'], $data, $cf7_form->id() );
 	}
 
 	/**
@@ -145,11 +144,6 @@ class MC4WP_Contact_Form_7_Integration extends MC4WP_Integration {
 
 		// for backwards compatibility, not all CF7 sign-ups have an object id
 		if( empty( $object_id ) ) {
-			return '';
-		}
-
-		// Return empty string if CF7 is no longer activated.
-		if( ! function_exists( 'wpcf7_contact_form' ) ) {
 			return '';
 		}
 

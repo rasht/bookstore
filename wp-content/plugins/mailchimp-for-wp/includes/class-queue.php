@@ -64,7 +64,6 @@ class MC4WP_Queue {
 	 * Add job to queue
 	 *
 	 * @param mixed $data
-     * @return boolean
 	 */
 	public function put( $data ) {
 
@@ -72,18 +71,9 @@ class MC4WP_Queue {
 			$this->load();
 		}
 
-        // check if we already have a job with same data
-        foreach( $this->jobs as $job ) {
-            if( $job->data === $data ) {
-                return false;
-            }
-        }
-
-        // add job to queue
 		$job = new MC4WP_Queue_Job( $data );
 		$this->jobs[] = $job;
 		$this->dirty = true;
-        return true;
 	}
 
 	/**
@@ -142,7 +132,7 @@ class MC4WP_Queue {
 			return false;
 		}
 
-		$success = update_option( $this->option_name, $this->jobs, false );
+		$success = update_option( $this->option_name, $this->jobs );
 
 		if( $success ) {
 			$this->dirty = false;

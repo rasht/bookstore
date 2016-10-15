@@ -42,10 +42,6 @@ class WC_Template_Loader {
 		$find = array( 'woocommerce.php' );
 		$file = '';
 
-		if ( is_embed() ) {
-			return $template;
-		}
-
 		if ( is_single() && get_post_type() == 'product' ) {
 
 			$file 	= 'single-product.php';

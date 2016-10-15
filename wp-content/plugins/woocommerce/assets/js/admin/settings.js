@@ -1,58 +1,44 @@
 /* global woocommerce_settings_params */
-( function( $ ) {
+jQuery( window ).load( function() {
 
-	// Sell Countries
-	$( 'select#woocommerce_allowed_countries' ).change( function() {
-		if ( 'specific' === $( this ).val() ) {
-			$( this ).closest('tr').next( 'tr' ).hide();
-			$( this ).closest('tr').next().next( 'tr' ).show();
-		} else if ( 'all_except' === $( this ).val() ) {
-			$( this ).closest('tr').next( 'tr' ).show();
-			$( this ).closest('tr').next().next( 'tr' ).hide();
+	// Countries
+	jQuery( 'select#woocommerce_allowed_countries, select#woocommerce_ship_to_countries' ).change( function() {
+		if ( jQuery( this ).val() === 'specific' ) {
+			jQuery( this ).parent().parent().next( 'tr' ).show();
 		} else {
-			$( this ).closest('tr').next( 'tr' ).hide();
-			$( this ).closest('tr').next().next( 'tr' ).hide();
-		}
-	}).change();
-
-	// Ship Countries
-	$( 'select#woocommerce_ship_to_countries' ).change( function() {
-		if ( 'specific' === $( this ).val() ) {
-			$( this ).closest('tr').next( 'tr' ).show();
-		} else {
-			$( this ).closest('tr').next( 'tr' ).hide();
+			jQuery( this ).parent().parent().next( 'tr' ).hide();
 		}
 	}).change();
 
 	// Color picker
-	$( '.colorpick' ).iris({
+	jQuery( '.colorpick' ).iris({
 		change: function( event, ui ) {
-			$( this ).parent().find( '.colorpickpreview' ).css({ backgroundColor: ui.color.toString() });
+			jQuery( this ).parent().find( '.colorpickpreview' ).css({ backgroundColor: ui.color.toString() });
 		},
 		hide: true,
 		border: true
 	}).click( function() {
-		$( '.iris-picker' ).hide();
-		$( this ).closest( 'td' ).find( '.iris-picker' ).show();
+		jQuery( '.iris-picker' ).hide();
+		jQuery( this ).closest( 'td' ).find( '.iris-picker' ).show();
 	});
 
-	$( 'body' ).click( function() {
-		$( '.iris-picker' ).hide();
+	jQuery( 'body' ).click( function() {
+		jQuery( '.iris-picker' ).hide();
 	});
 
-	$( '.colorpick' ).click( function( event ) {
+	jQuery( '.colorpick' ).click( function( event ) {
 		event.stopPropagation();
 	});
 
 	// Edit prompt
-	$( function() {
+	jQuery( function() {
 		var changed = false;
 
-		$( 'input, textarea, select, checkbox' ).change( function() {
+		jQuery( 'input, textarea, select, checkbox' ).change( function() {
 			changed = true;
 		});
 
-		$( '.woo-nav-tab-wrapper a' ).click( function() {
+		jQuery( '.woo-nav-tab-wrapper a' ).click( function() {
 			if ( changed ) {
 				window.onbeforeunload = function() {
 				    return woocommerce_settings_params.i18n_nav_warning;
@@ -62,13 +48,13 @@
 			}
 		});
 
-		$( '.submit input' ).click( function() {
+		jQuery( '.submit input' ).click( function() {
 			window.onbeforeunload = '';
 		});
 	});
 
 	// Sorting
-	$( 'table.wc_gateways tbody, table.wc_shipping tbody' ).sortable({
+	jQuery( 'table.wc_gateways tbody, table.wc_shipping tbody' ).sortable({
 		items: 'tr',
 		cursor: 'move',
 		axis: 'y',
@@ -76,7 +62,7 @@
 		scrollSensitivity: 40,
 		helper: function( event, ui ) {
 			ui.children().each( function() {
-				$( this ).width( $( this ).width() );
+				jQuery( this ).width( jQuery( this ).width() );
 			});
 			ui.css( 'left', '0' );
 			return ui;
@@ -90,15 +76,15 @@
 	});
 
 	// Select all/none
-	$( '.woocommerce' ).on( 'click', '.select_all', function() {
-		$( this ).closest( 'td' ).find( 'select option' ).attr( 'selected', 'selected' );
-		$( this ).closest( 'td' ).find( 'select' ).trigger( 'change' );
+	jQuery( '.woocommerce' ).on( 'click', '.select_all', function() {
+		jQuery( this ).closest( 'td' ).find( 'select option' ).attr( 'selected', 'selected' );
+		jQuery( this ).closest( 'td' ).find( 'select' ).trigger( 'change' );
 		return false;
 	});
 
-	$( '.woocommerce' ).on( 'click', '.select_none', function() {
-		$( this ).closest( 'td' ).find( 'select option' ).removeAttr( 'selected' );
-		$( this ).closest( 'td' ).find( 'select' ).trigger( 'change' );
+	jQuery( '.woocommerce' ).on( 'click', '.select_none', function() {
+		jQuery( this ).closest( 'td' ).find( 'select option' ).removeAttr( 'selected' );
+		jQuery( this ).closest( 'td' ).find( 'select' ).trigger( 'change' );
 		return false;
 	});
-})( jQuery );
+});

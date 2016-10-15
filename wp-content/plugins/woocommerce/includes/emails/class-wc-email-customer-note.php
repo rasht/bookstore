@@ -29,7 +29,7 @@ class WC_Email_Customer_Note extends WC_Email {
 	/**
 	 * Constructor.
 	 */
-	public function __construct() {
+	function __construct() {
 
 		$this->id             = 'customer_note';
 		$this->customer_email = true;
@@ -54,9 +54,9 @@ class WC_Email_Customer_Note extends WC_Email {
 	 *
 	 * @param array $args
 	 */
-	public function trigger( $args ) {
+	function trigger( $args ) {
 
-		if ( ! empty( $args ) ) {
+		if ( $args ) {
 
 			$defaults = array(
 				'order_id'      => '',
@@ -94,7 +94,7 @@ class WC_Email_Customer_Note extends WC_Email {
 	 * @access public
 	 * @return string
 	 */
-	public function get_content_html() {
+	function get_content_html() {
 		return wc_get_template_html( $this->template_html, array(
 			'order'         => $this->object,
 			'email_heading' => $this->get_heading(),
@@ -111,7 +111,7 @@ class WC_Email_Customer_Note extends WC_Email {
 	 * @access public
 	 * @return string
 	 */
-	public function get_content_plain() {
+	function get_content_plain() {
 		return wc_get_template_html( $this->template_plain, array(
 			'order'         => $this->object,
 			'email_heading' => $this->get_heading(),

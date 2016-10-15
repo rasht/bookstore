@@ -1,5 +1,59 @@
 /*
 Theme Name: Ketab Forosh 
-Author: Javad mahmoudi
-Version: 1.1.2
+Author: Hatef
 */
+
+.site-header {
+	font-size: 18px;
+	padding: 20px 0;
+	background: #126bbf;
+}
+
+.site-menu.navbar-collapse.collapse.navbar-collapse-top {
+	padding: 20px;
+}
+
+#woocommerce_product_categories-2 .children {
+	padding-right: 15px;
+}
+
+.download-url {
+	font-weight: 900;
+	font-size: 30px;
+	color: orange;
+}
+
+.download-url a {
+    font-size: 17px;
+    font-weight: 900;
+    color: red;
+}
+
+.single-post .attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
+  display: none;
+}
+
+.blog .entry-media.entry-media-standard {
+  background: none;
+}
+
+.category .entry-media.entry-media-standard {
+  background: none;
+}
+
+.blog .attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
+  width: 50%;
+}
+
+.category .attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
+  width: 50%;
+}
+
+.site-logo-text {
+	font-family: inherit !important;
+}
+
+.site-logo-image img {
+	height: 100px !important;
+}
+

@@ -33,8 +33,7 @@ class MC4WP_Visitor_Tracking {
 	 * @param MC4WP_Form $form
 	 */
 	public function on_form_success( MC4WP_Form $form ) {
-	    $data = $form->get_data();
-		$this->save( $data );
+		$this->save( $form->data );
 	}
 
 	/**
@@ -69,7 +68,6 @@ class MC4WP_Visitor_Tracking {
 		 *
 		 * @since 3.0
 		 * @param int $timestamp
-         * @ignore
 		 */
 		$expiration_time = apply_filters( 'mc4wp_cookie_expiration_time', $timestamp );
 

@@ -198,16 +198,12 @@ class WC_Shortcode_Checkout {
 
 		if ( $order_id > 0 ) {
 			$order = wc_get_order( $order_id );
-			if ( $order->order_key != $order_key ) {
-				$order = false;
-			}
+			if ( $order->order_key != $order_key )
+				unset( $order );
 		}
 
 		// Empty awaiting payment session
 		unset( WC()->session->order_awaiting_payment );
-
-		// Empty current cart
-		wc_empty_cart();
 
 		wc_get_template( 'checkout/thankyou.php', array( 'order' => $order ) );
 	}

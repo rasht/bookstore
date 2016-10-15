@@ -60,14 +60,11 @@ class MC4WP_Integration_Tags{
 		return $string;
 	}
 
-    /**
-     * Returns the number of subscribers on the selected lists (for the form context)
-     *
-     * @return int
-     */
-    public function get_subscriber_count() {
-        $mailchimp = new MC4WP_MailChimp();
-        $count = $mailchimp->get_subscriber_count( $this->integration->get_lists() );
-        return number_format( $count );
-    }
+	/**
+	 * @return int
+	 */
+	public function get_subscriber_count() {
+		$mailchimp = new MC4WP_MailChimp();
+		return $mailchimp->get_subscriber_count( $this->integration->get_lists() );
+	}
 }

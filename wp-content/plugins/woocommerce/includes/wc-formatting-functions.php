@@ -27,29 +27,6 @@ function wc_sanitize_taxonomy_name( $taxonomy ) {
 }
 
 /**
- * Sanitize permalink values before insertion into DB.
- *
- * Cannot use wc_clean because it sometimes strips % chars and breaks the user's setting.
- *
- * @since  2.6.0
- * @param  string $value
- * @return string
- */
-function wc_sanitize_permalink( $value ) {
-	global $wpdb;
-
-	$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
-
-	if ( is_wp_error( $value ) ) {
-		$value = '';
-	}
-
-	$value = esc_url_raw( $value );
-	$value = str_replace( 'http://', '', $value );
-	return untrailingslashit( $value );
-}
-
-/**
  * Gets the filename part of a download URL.
  *
  * @param string $file_url
@@ -189,12 +166,12 @@ function wc_round_tax_total( $tax ) {
 
 	// @codeCoverageIgnoreStart
 	if ( version_compare( phpversion(), '5.3', '<' ) ) {
-		$rounded_tax = round( $tax, $dp );
+		$tax = round( $tax, $dp );
 	} else {
 		// @codeCoverageIgnoreEnd
-		$rounded_tax = round( $tax, $dp, WC_TAX_ROUNDING_MODE );
+		$tax = round( $tax, $dp, WC_TAX_ROUNDING_MODE );
 	}
-	return apply_filters( 'wc_round_tax_total', $rounded_tax, $tax, $dp, WC_TAX_ROUNDING_MODE );
+	return $tax;
 }
 
 /**
@@ -277,17 +254,12 @@ function wc_format_localized_decimal( $value ) {
 }
 
 /**
- * Clean variables using sanitize_text_field. Arrays are cleaned recursively.
- * Non-scalar values are ignored.
+ * Clean variables using sanitize_text_field.
  * @param string|array $var
  * @return string|array
  */
 function wc_clean( $var ) {
-	if ( is_array( $var ) ) {
-		return array_map( 'wc_clean', $var );
-	} else {
-		return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
-	}
+	return is_array( $var ) ? array_map( 'wc_clean', $var ) : sanitize_text_field( $var );
 }
 
 /**
@@ -308,7 +280,7 @@ function wc_sanitize_tooltip( $var ) {
 		'li'     => array(),
 		'ol'     => array(),
 		'p'      => array(),
-	) ) );
+    ) ) );
 }
 
 /**
@@ -422,11 +394,11 @@ function wc_price( $price, $args = array() ) {
 		$price = wc_trim_zeros( $price );
 	}
 
-	$formatted_price = ( $negative ? '-' : '' ) . sprintf( $price_format, '<span class="woocommerce-Price-currencySymbol">' . get_woocommerce_currency_symbol( $currency ) . '</span>', $price );
-	$return          = '<span class="woocommerce-Price-amount amount">' . $formatted_price . '</span>';
+	$formatted_price = ( $negative ? '-' : '' ) . sprintf( $price_format, get_woocommerce_currency_symbol( $currency ), $price );
+	$return          = '<span class="amount">' . $formatted_price . '</span>';
 
 	if ( $ex_tax_label && wc_tax_enabled() ) {
-		$return .= ' <small class="woocommerce-Price-taxLabel tax_label">' . WC()->countries->ex_tax_or_vat() . '</small>';
+		$return .= ' <small class="tax_label">' . WC()->countries->ex_tax_or_vat() . '</small>';
 	}
 
 	return apply_filters( 'wc_price', $return, $price, $args );
@@ -478,9 +450,9 @@ function wc_time_format() {
 
 /**
  * WooCommerce Timezone - helper to retrieve the timezone string for a site until.
- * a WP core method exists (see https://core.trac.wordpress.org/ticket/24730).
+ * a WP core method exists (see http://core.trac.wordpress.org/ticket/24730).
  *
- * Adapted from https://secure.php.net/manual/en/function.timezone-name-from-abbr.php#89155.
+ * Adapted from http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155.
  *
  * @since 2.1
  * @return string a valid PHP timezone string for the site
@@ -650,43 +622,19 @@ if ( ! function_exists( 'wc_format_hex' ) ) {
 /**
  * Format the postcode according to the country and length of the postcode.
  *
- * @param string $postcode
- * @param string $country
- * @return string Formatted postcode.
+ * @param string postcode
+ * @param string country
+ * @return string formatted postcode
  */
 function wc_format_postcode( $postcode, $country ) {
-	$postcode = wc_normalize_postcode( $postcode );
+	$postcode = strtoupper( trim( $postcode ) );
+	$postcode = trim( preg_replace( '/[\s]/', '', $postcode ) );
 
-	switch ( $country ) {
-		case 'CA' :
-		case 'GB' :
-			$postcode = trim( substr_replace( $postcode, ' ', -3, 0 ) );
-			break;
-		case 'BR' :
-			$postcode = trim( substr_replace( $postcode, '-', -3, 0 ) );
-			break;
-		case 'JP' :
-			$postcode = trim( substr_replace( $postcode, '-', 3, 0 ) );
-			break;
-		case 'PT' :
-			$postcode = trim( substr_replace( $postcode, '-', 4, 0 ) );
-			break;
+	if ( in_array( $country, array( 'GB', 'CA' ) ) ) {
+		$postcode = trim( substr_replace( $postcode, ' ', -3, 0 ) );
 	}
 
-	return apply_filters( 'woocommerce_format_postcode', $postcode, $country );
-}
-
-/**
- * Normalize postcodes.
- *
- * Remove spaces and convert characters to uppercase.
- *
- * @since 2.6.0
- * @param string $postcode
- * @return string Sanitized postcode.
- */
-function wc_normalize_postcode( $postcode ) {
-	return preg_replace( '/[\s\-]/', '', trim( strtoupper( $postcode ) ) );
+	return $postcode;
 }
 
 /**
@@ -696,7 +644,8 @@ function wc_normalize_postcode( $postcode ) {
  * @return string
  */
 function wc_format_phone_number( $tel ) {
-	return str_replace( '.', '-', $tel );
+	$tel = str_replace( '.', '-', $tel );
+	return $tel;
 }
 
 /**
@@ -720,11 +669,7 @@ function wc_strtolower( $string ) {
  */
 function wc_trim_string( $string, $chars = 200, $suffix = '...' ) {
 	if ( strlen( $string ) > $chars ) {
-		if ( function_exists( 'mb_substr' ) ) {
-			$string = mb_substr( $string, 0, ( $chars - mb_strlen( $suffix ) ) ) . $suffix;
-		} else {
-			$string = substr( $string, 0, ( $chars - strlen( $suffix ) ) ) . $suffix;
-		}
+		$string = substr( $string, 0, ( $chars - strlen( $suffix ) ) ) . $suffix;
 	}
 	return $string;
 }
@@ -815,36 +760,4 @@ add_filter( 'woocommerce_admin_settings_sanitize_option_woocommerce_hold_stock_m
  */
 function wc_sanitize_term_text_based( $term ) {
 	return trim( wp_unslash( strip_tags( $term ) ) );
-}
-
-if ( ! function_exists( 'wc_make_numeric_postcode' ) ) {
-	/**
-	 * Make numeric postcode.
-	 *
-	 * Converts letters to numbers so we can do a simple range check on postcodes.
-	 * E.g. PE30 becomes 16050300 (P = 16, E = 05, 3 = 03, 0 = 00)
-	 *
-	 * @since 2.6.0
-	 * @param string $postcode Regular postcode
-	 * @return string
-	 */
-	function wc_make_numeric_postcode( $postcode ) {
-		$postcode           = str_replace( array( ' ', '-' ), '', $postcode );
-		$postcode_length    = strlen( $postcode );
-		$letters_to_numbers = array_merge( array( 0 ), range( 'A', 'Z' ) );
-		$letters_to_numbers = array_flip( $letters_to_numbers );
-		$numeric_postcode   = '';
-
-		for ( $i = 0; $i < $postcode_length; $i ++ ) {
-			if ( is_numeric( $postcode[ $i ] ) ) {
-				$numeric_postcode .= str_pad( $postcode[ $i ], 2, '0', STR_PAD_LEFT );
-			} elseif ( isset( $letters_to_numbers[ $postcode[ $i ] ] ) ) {
-				$numeric_postcode .= str_pad( $letters_to_numbers[ $postcode[ $i ] ], 2, '0', STR_PAD_LEFT );
-			} else {
-				$numeric_postcode .= '00';
-			}
-		}
-
-		return $numeric_postcode;
-	}
 }

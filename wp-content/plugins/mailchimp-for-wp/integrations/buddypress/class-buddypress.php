@@ -54,9 +54,10 @@ class MC4WP_BuddyPress_Integration extends MC4WP_User_Integration {
 		}
 
 		// gather emailadress and name from user who BuddyPress registered
-		$data = $this->user_merge_vars( $user );
+		$email = $user->user_email;
+		$merge_vars = $this->user_merge_vars( $user );
 
-		return $this->subscribe( $data, $user_id );
+		return $this->subscribe( $email, $merge_vars, $user_id );
 	}
 	/* End BuddyPress functions */
 

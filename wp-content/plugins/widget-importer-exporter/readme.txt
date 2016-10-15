@@ -1,11 +1,10 @@
 === Widget Importer & Exporter ===
 Contributors: stevengliebe, churchthemes
-Tags: widgets, widget, importer, exporter, import, export, widget import, widget export, widget importer, widget exporter, backup, migration
+Tags: widgets, widget, importer, exporter, import, export, backup
 Requires at least: 3.5
-Tested up to: 4.6
-Stable tag: 1.3.1
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tested up to: 4.4
+Stable tag: trunk
+License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Import and export your widgets.
 
@@ -25,16 +24,13 @@ Widget Importer & Exporter can create an export file (in JSON format with .wie e
 
 = Translations =
 
-The following translations are available.
+The following translations are included.
 
 * English (default)
-* Spanish by [Eduardo Larequi](http://www.labitacoradeltigre.com/)
-* French by [French Translation Team](https://make.wordpress.org/polyglots/teams/?locale=fr_FR)
-* German by [Alexander Kesting](http://alex-dune.de)
-* Italian by [venerdi](https://profiles.wordpress.org/venerdi/)
-* Dutch by [Paul Backus](http://backups.nl/)
-* Serbian by Borisa Djuraskovic of [Web Hosting Hub](http://www.webhostinghub.com)
-* More at [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/widget-importer-exporter)
+* Spanish (es_ES) by [Eduardo Larequi](http://www.labitacoradeltigre.com/)
+* French (fr_FR) by [Jose Kost](http://josekost.fr/)
+* German (de_DE) by [Alexander Kesting](http://alex-dune.de)
+* Serbo-Croatian (sr_RS) by Borisa Djuraskovic of [Web Hosting Hub](http://www.webhostinghub.com)
 
 = Developers =
 
@@ -44,7 +40,8 @@ Please jump on [GitHub](https://github.com/stevengliebe/widget-importer-exporter
 
 = Follow me =
 
-Find my website at [stevengliebe.com](http://stevengliebe.com).
+* Find my blog at [stevengliebe.com](http://stevengliebe.com)
+* Follow me on Twitter ([@stevengliebe](https://twitter.com/stevengliebe))
 
 This project is made possible by [churchthemes.com](http://churchthemes.com) ([@churchthemes](https://twitter.com/churchthemes)).
 

@@ -19,14 +19,8 @@ class PW_Price_Tools {
 		}
 		
 		if($this->options['persian_price'] == 'yes'){
-			add_filter('woocommerce_get_price_html', array( $this, 'persian_number') );
-			
-			add_filter('woocommerce_cart_item_price', array( $this, 'persian_number') );
-			add_filter('woocommerce_cart_item_subtotal', array( $this, 'persian_number') );
-			add_filter('woocommerce_cart_subtotal', array( $this, 'persian_number') );
-			add_filter('woocommerce_cart_totals_coupon_html', array( $this, 'persian_number') );
-			add_filter('woocommerce_cart_shipping_method_full_label', array( $this, 'persian_number') );
-			add_filter('woocommerce_cart_total', array( $this, 'persian_number') );
+			add_filter('woocommerce_sale_price_html', array( $this, 'persian_number') );
+			add_filter('woocommerce_price_html', array( $this, 'persian_number') );
 		}
 		
 	}

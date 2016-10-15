@@ -317,3 +317,11 @@ if( class_exists( 'woocommerce' ) ) {
 if( class_exists( 'woocommerce' ) ) {
 	toko_include_file( trailingslashit( THEME_DIR ) . 'inc/woocommerce/customize.php' );
 }
+
+
+add_filter( 'woocommerce_checkout_fields' , 'EMAD_woocommerce_fields' );
+function EMAD_woocommerce_fields( $fields ) {
+     unset($fields['billing']['billing_city']);
+     
+     return $fields;
+}

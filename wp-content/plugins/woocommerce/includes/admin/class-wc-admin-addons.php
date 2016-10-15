@@ -101,24 +101,24 @@ class WC_Admin_Addons {
 
 		if ( 'storefront' === $template ) {
 			if ( 'storefront' === $stylesheet ) {
-				$url         = 'https://woocommerce.com/product-category/themes/storefront-child-theme-themes/';
+				$url         = 'http:///www.woothemes.com/product-category/themes/storefront-child-theme-themes/';
 				$text        = __( 'Need a fresh look? Try Storefront child themes', 'woocommerce' );
 				$utm_content = 'nostorefrontchildtheme';
 			} else {
-				$url         = 'https://woocommerce.com/product-category/themes/storefront-child-theme-themes/';
+				$url         = 'http:///www.woothemes.com/product-category/themes/storefront-child-theme-themes/';
 				$text        = __( 'View more Storefront child themes', 'woocommerce' );
 				$utm_content = 'hasstorefrontchildtheme';
 			}
 		} else {
-			$url         = 'https://woocommerce.com/storefront/';
+			$url         = 'http://www.woothemes.com/storefront/';
 			$text        = __( 'Need a theme? Try Storefront', 'woocommerce' );
 			$utm_content = 'nostorefront';
 		}
 
 		$url = add_query_arg( array(
-			'utm_source'   => 'addons',
-			'utm_medium'   => 'product',
-			'utm_campaign' => 'woocommerceplugin',
+			'utm_source'   => 'product',
+			'utm_medium'   => 'upsell',
+			'utm_campaign' => 'wcaddons',
 			'utm_content'  => $utm_content,
 		), $url );
 

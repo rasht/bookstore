@@ -29,10 +29,11 @@ class WC_Embed {
 	public static function init() {
 
 		// Filter all of the content that's going to be embedded.
+		add_filter( 'the_title', array( __CLASS__, 'the_title' ), 10 );
 		add_filter( 'the_excerpt_embed', array( __CLASS__, 'the_excerpt' ), 10 );
 
 		// Make sure no comments display. Doesn't make sense for products.
-		add_action( 'embed_content_meta', array( __CLASS__, 'remove_comments_button' ), 5 );
+		remove_action( 'embed_content_meta', 'print_embed_comments_button' );
 
 		// In the comments place let's display the product rating.
 		add_action( 'embed_content_meta', array( __CLASS__, 'get_ratings' ), 5 );
@@ -42,14 +43,23 @@ class WC_Embed {
 	}
 
 	/**
-	 * Remove comments button on product embeds.
+	 * Create the title for embedded products - we want to add the price to it.
 	 *
-	 * @since 2.6.0
+	 * @since 2.4.11
+	 * @param string $title Embed title.
+	 * @return string
 	 */
-	public static function remove_comments_button() {
+	public static function the_title( $title ) {
+		// Make sure we're only affecting embedded products.
 		if ( self::is_embedded_product() ) {
-			remove_action( 'embed_content_meta', 'print_embed_comments_button' );
+
+			// Get product.
+			$_product = wc_get_product( get_the_ID() );
+
+			// Add the price.
+			$title = $title . '<span class="wc-embed-price">' . $_product->get_price_html() . '</span>';
 		}
+		return $title;
 	}
 
 	/**
@@ -75,13 +85,8 @@ class WC_Embed {
 	public static function the_excerpt( $excerpt ) {
 		global $post;
 
-		// Get product.
-		$_product = wc_get_product( get_the_ID() );
-
 		// Make sure we're only affecting embedded products.
 		if ( self::is_embedded_product() ) {
-			echo '<p><span class="wc-embed-price">' . $_product->get_price_html() . '</span></p>';
-
 			if ( ! empty( $post->post_excerpt ) ) {
 				ob_start();
 				woocommerce_template_single_excerpt();
@@ -109,7 +114,7 @@ class WC_Embed {
 			$buttons[] = sprintf( $button, esc_url( add_query_arg( 'add-to-cart', get_the_ID(), wc_get_cart_url() ) ), esc_html__( 'Buy Now', 'woocommerce' ) );
 		}
 
-		$buttons[] = sprintf( $button, get_the_permalink(), esc_html__( 'Read more', 'woocommerce' ) );
+		$buttons[] = sprintf( $button, get_the_permalink(), esc_html__( 'Read More', 'woocommerce' ) );
 
 		return '<p>' . implode( ' ', $buttons ) . '</p>';
 	}
@@ -156,10 +161,7 @@ class WC_Embed {
 				margin: 0 0 1em;
 			}
 			.wc-embed-price {
-				display: block;
-				opacity: .75;
-				font-weight: 700;
-				margin-top: -.75em;
+				float:right;
 			}
 			.wc-embed-rating {
 				display: inline-block;

@@ -84,7 +84,7 @@ return array(
 					'country'  => 'CA',
 					'state'    => 'BC',
 					'rate'     => '7.0000',
-					'name'     => _x( 'PST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'PST',
 					'shipping' => false,
 					'priority' => 2
 				)
@@ -94,7 +94,7 @@ return array(
 					'country'  => 'CA',
 					'state'    => 'SK',
 					'rate'     => '5.0000',
-					'name'     => _x( 'PST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'PST',
 					'shipping' => false,
 					'priority' => 2
 				)
@@ -104,7 +104,7 @@ return array(
 					'country'  => 'CA',
 					'state'    => 'MB',
 					'rate'     => '8.0000',
-					'name'     => _x( 'PST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'PST',
 					'shipping' => false,
 					'priority' => 2
 				)
@@ -114,7 +114,7 @@ return array(
 					'country'  => 'CA',
 					'state'    => 'QC',
 					'rate'     => '9.975',
-					'name'     => _x( 'QST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'QST',
 					'shipping' => false,
 					'priority' => 2
 				)
@@ -124,91 +124,91 @@ return array(
 					'country'  => 'CA',
 					'state'    => 'ON',
 					'rate'     => '13.0000',
-					'name'     => _x( 'HST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'HST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'NL',
 					'rate'     => '13.0000',
-					'name'     => _x( 'HST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'HST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'NB',
 					'rate'     => '13.0000',
-					'name'     => _x( 'HST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'HST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'PE',
 					'rate'     => '14.0000',
-					'name'     => _x( 'HST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'HST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'NS',
 					'rate'     => '15.0000',
-					'name'     => _x( 'HST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'HST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'AB',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'BC',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'NT',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'NU',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'YT',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'SK',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'MB',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				),
 				array(
 					'country'  => 'CA',
 					'state'    => 'QC',
 					'rate'     => '5.0000',
-					'name'     => _x( 'GST', 'Canadian Tax Rates', 'woocommerce' ),
+					'name'     => 'GST',
 					'shipping' => true
 				)
 			)

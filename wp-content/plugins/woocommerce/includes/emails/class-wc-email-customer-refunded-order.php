@@ -22,7 +22,7 @@ class WC_Email_Customer_Refunded_Order extends WC_Email {
 	/**
 	 * Refund order.
 	 *
-	 * @var WC_Order|bool
+	 * @var WC_Order
 	 */
 	public $refund;
 
@@ -60,13 +60,12 @@ class WC_Email_Customer_Refunded_Order extends WC_Email {
 		$this->heading_full        = $this->get_option( 'heading_full', __( 'Your order has been fully refunded', 'woocommerce' ) );
 		$this->heading_partial     = $this->get_option( 'heading_partial', __( 'Your order has been partially refunded', 'woocommerce' ) );
 
-		$this->template_html  = 'emails/customer-refunded-order.php';
-		$this->template_plain = 'emails/plain/customer-refunded-order.php';
-
 		if ( $partial_refund ) {
 			$this->id             = 'customer_partially_refunded_order';
 			$this->title          = __( 'Partially Refunded order', 'woocommerce' );
 			$this->description    = __( 'Order partially refunded emails are sent to customers when their orders are partially refunded.', 'woocommerce' );
+			$this->template_html  = 'emails/customer-refunded-order.php';
+			$this->template_plain = 'emails/plain/customer-refunded-order.php';
 			$this->heading        = $this->heading_partial;
 			$this->subject        = $this->subject_partial;
 		}
@@ -74,6 +73,8 @@ class WC_Email_Customer_Refunded_Order extends WC_Email {
 			$this->id             = 'customer_refunded_order';
 			$this->title          = __( 'Refunded order', 'woocommerce' );
 			$this->description    = __( 'Order refunded emails are sent to customers when their orders are marked refunded.', 'woocommerce' );
+			$this->template_html  = 'emails/customer-refunded-order.php';
+			$this->template_plain = 'emails/plain/customer-refunded-order.php';
 			$this->heading        = $this->heading_full;
 			$this->subject        = $this->subject_full;
 		}
@@ -121,7 +122,7 @@ class WC_Email_Customer_Refunded_Order extends WC_Email {
 			$this->replace['order-number'] = $this->object->get_order_number();
 		}
 
-		if ( ! empty( $refund_id ) ) {
+		if ( $refund_id ) {
 			$this->refund = wc_get_order( $refund_id );
 		} else {
 			$this->refund = false;

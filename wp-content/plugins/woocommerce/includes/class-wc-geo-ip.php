@@ -57,7 +57,7 @@ class WC_Geo_IP {
 	/**
 	 * Flags.
 	 *
-	 * @var int
+	 * @var array
 	 */
 	public $flags;
 
@@ -71,14 +71,14 @@ class WC_Geo_IP {
 	/**
 	 * Memory buffer.
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $memory_buffer;
 
 	/**
 	 * Database type.
 	 *
-	 * @var int
+	 * @var string
 	 */
 	public $databaseType;
 
@@ -1310,6 +1310,8 @@ class WC_Geo_IP {
 						|| ( $this->databaseType == self::GEOIP_ISP_EDITION_V6 )
 						|| ( $this->databaseType == self::GEOIP_LOCATIONA_EDITION )
 						|| ( $this->databaseType == self::GEOIP_ACCURACYRADIUS_EDITION )
+						|| ( $this->databaseType == self::GEOIP_CITY_EDITION_REV0_V6 )
+						|| ( $this->databaseType == self::GEOIP_CITY_EDITION_REV1_V6 )
 						|| ( $this->databaseType == self::GEOIP_NETSPEED_EDITION_REV1 )
 						|| ( $this->databaseType == self::GEOIP_NETSPEED_EDITION_REV1_V6 )
 						|| ( $this->databaseType == self::GEOIP_USERTYPE_EDITION )
@@ -1504,7 +1506,7 @@ class WC_Geo_IP {
 	 * @param  int $ipnum
 	 * @return string
 	 */
-	public function _geoip_seek_country_v6( $ipnum ) {
+	function _geoip_seek_country_v6( $ipnum ) {
 		// arrays from unpack start with offset 1
 		// yet another php mystery. array_merge work around
 		// this broken behaviour
@@ -1766,21 +1768,21 @@ class WC_Geo_IP_Record {
 	/**
 	 * Latitude
 	 *
-	 * @var int
+	 * @var float
 	 */
 	public $latitude;
 
 	/**
 	 * Longitude.
 	 *
-	 * @var int
+	 * @var float
 	 */
 	public $longitude;
 
 	/**
 	 * Area code.
 	 *
-	 * @var int
+	 * @var string
 	 */
 	public $area_code;
 
@@ -1790,14 +1792,14 @@ class WC_Geo_IP_Record {
 	 * Metro and DMA code are the same.
 	 * Use metro code instead.
 	 *
-	 * @var float
+	 * @var int
 	 */
 	public $dma_code;
 
 	/**
 	 * Metro code.
 	 *
-	 * @var float
+	 * @var int
 	 */
 	public $metro_code;
 

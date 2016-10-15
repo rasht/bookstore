@@ -8,7 +8,7 @@
  * @param $integrations
  * @ignore
  */
-function _mc4wp_integrations_table( $integrations ) {
+function __mc4wp_integrations_table( $integrations ) {
 	?>
 	<table class="mc4wp-table widefat striped">
 
@@ -77,12 +77,12 @@ function _mc4wp_integrations_table( $integrations ) {
 				<?php settings_fields( 'mc4wp_integrations_settings' ); ?>
 
 				<h3><?php _e( 'Enabled integrations', 'mailchimp-for-wp' ); ?></h3>
-				<?php _mc4wp_integrations_table( $enabled_integrations ); ?>
+				<?php __mc4wp_integrations_table( $enabled_integrations ); ?>
 
 				<div class="medium-margin"></div>
 
 				<h3><?php _e( 'Available integrations', 'mailchimp-for-wp' ); ?></h3>
-				<?php _mc4wp_integrations_table( $available_integrations ); ?>
+				<?php __mc4wp_integrations_table( $available_integrations ); ?>
 
 			</form>
 

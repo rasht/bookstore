@@ -6,7 +6,9 @@ Donate link: http://woocommerce.ir/donate.html
 plugin URI: http://www.woocommerce.ir/download.html
 Tags: persian,parsi,parsian,persians,farsi,iran,woocommerce, persian woocommerce, woocommerce farsi, iran, iranian, rtl, fa_IR,states,iranian rials,iranian tomans, woocommerce.ir,affiliate, cart, checkout, commerce, configurable, digital, download, downloadable, e-commerce, ecommerce, inventory, reports, sales, sell, shipping, shop, shopping, stock, store, tax, variable, widgets, woothemes, wordpress ecommerce
 Requires at least: 4.0
-Tested up to: 5.0
+Tested up to: 4.5
+WC requires at least: 2.5
+WC tested up to: 2.5.5
 
 This plugin extends the WooCommerce shop plugin with complete Persian(Farsi) language packs
 
@@ -22,7 +24,7 @@ This plugin extends the WooCommerce shop plugin with complete Persian(Farsi) lan
 * and...
 
 = Compatibility =
-* Woocommece 2.6.x
+* Woocommece 2.5.x
 * Wordpress 4.x
 
 = Support =
@@ -53,18 +55,6 @@ You can read complete documentations on the [woocommerce.ir](http://www.woocomme
 
 
 == Changelog ==
-= 2.6.2 =
-* رفع مشکل عدم دانلود محصولات با ایمیل یاهو
-= 2.6.1 =
-* رفع نقص
-= 2.6 =
-* بروزرسانی فارسی ساز و رفع باگ
-= 2.5.4 =
-* رفع باگ کوچک
-= 2.5.3 =
-* فارسی سازی اعداد قیمت محصولات متغیر
-* فارسی سازی اعداد سبد خرید
-* هماهنگی با نسخه جدید ووکامرس
 = 2.5.2 =
 * رفع باگ
 = 2.5.1 =
@@ -103,18 +93,6 @@ You can read complete documentations on the [woocommerce.ir](http://www.woocomme
 * نسخه اولیه
 
 == Upgrade Notice ==
-= 2.6.2 =
-* رفع مشکل عدم دانلود محصولات با ایمیل یاهو
-= 2.6.1 =
-* رفع نقص
-= 2.6 =
-* بروزرسانی فارسی ساز و رفع باگ
-= 2.5.4 =
-* رفع باگ کوچک
-= 2.5.3 =
-* فارسی سازی اعداد قیمت محصولات متغیر
-* فارسی سازی اعداد سبد خرید
-* هماهنگی با نسخه جدید ووکامرس
 = 2.5.2 =
 * رفع باگ
 = 2.5.1 =

@@ -9,10 +9,7 @@ if( empty( $options['allow_usage_tracking'] ) ) {
 // usage tracking is enabled, reschedule it so it uses new cron schedule.
 
 // make sure 'monthly' cron schedule is registered
-/**
- * @ignore
- */
-function _mc4wp_303_add_monthly_cron_schedule( $schedules ) {
+function __mc4wp_303_add_monthly_cron_schedule( $schedules ) {
 	$schedules['monthly'] = array(
 		'interval' => 30 * DAY_IN_SECONDS,
 		'display' => 'Once a month'
@@ -21,7 +18,7 @@ function _mc4wp_303_add_monthly_cron_schedule( $schedules ) {
 	return $schedules;
 }
 
-add_filter( 'cron_schedules', '_mc4wp_303_add_monthly_cron_schedule', 1 );
+add_filter( 'cron_schedules', '__mc4wp_303_add_monthly_cron_schedule', 1 );
 
 // reschedule usage tracking event
 wp_clear_scheduled_hook( 'mc4wp_usage_tracking' );

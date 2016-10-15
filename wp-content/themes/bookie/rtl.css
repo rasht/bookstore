@@ -598,3 +598,10 @@ address {
 .woocommerce .cart-collaterals .cart_totals, .woocommerce .cart-collaterals .cross-sells, .woocommerce .cart-collaterals .shipping_calculator, .woocommerce-page .cart-collaterals .cart_totals, .woocommerce-page .cart-collaterals .cross-sells, .woocommerce-page .cart-collaterals .shipping_calculator {
     text-align: right !important;
 }}
+.woocommerce ul.product_list_widget li {
+    padding: 0 70px 15px 0;
+}
+.widget .tagcloud a, .widget .tagcloud a:visited {
+	margin-right:0 !important;
+    margin-left: 10px;
+}

@@ -126,8 +126,7 @@ ul.woocommerce_stats {
 			width: 100%;
 
 			a:before {
-				font-family: "Dashicons";
-				content: "\f185";
+				content: "\e01f";
 			}
 		}
 
@@ -159,14 +158,14 @@ ul.woocommerce_stats {
 			border-right: 1px solid #ececec;
 
 			a:before {
-				content: "\e016";
+				content: "\e02c";
 				color: $orange;
 			}
 		}
 
 		li.out-of-stock {
 			a:before {
-				content: "\e013";
+				content: "\e02c";
 				color: $red;
 			}
 		}

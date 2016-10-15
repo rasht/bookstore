@@ -105,11 +105,7 @@ class Persian_Wooommerce_Address extends Persian_Wooommerce_Plugin {
 		$types = array('billing' , 'shipping');
 		foreach ( $types as $type) {
 			
-			if ( isset($fields[$type][$type . '_city']['class']) && is_array($fields[$type][$type . '_city']['class']) )
-				$city_classes = implode( ',', $fields[$type][$type . '_city']['class']);
-			else
-				$city_classes = isset($fields[$type][$type . '_city']['class']) ? $fields[$type][$type . '_city']['class'] : '';
-				
+			$city_classes = implode( ',', $fields[$type][$type . '_city']['class']);
 			$city_classes = str_ireplace( 'form-row-wide', 'form-row-last', $city_classes );
 			
 			$fields[$type][$type . '_city']['class'] = explode( ',', $city_classes );

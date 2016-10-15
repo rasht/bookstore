@@ -10,7 +10,7 @@
  * already has tag.php for Tag archives, category.php for Category archives,
  * and author.php for Author archives.
  *
- * @link http://codex.wordpress.org/Template_Hierarchy
+ * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
@@ -28,26 +28,13 @@ get_header(); ?>
 				<h1 class="page-title">
 					<?php
 						if ( is_day() ) :
-							if(function_exists('jdate')) {
-								printf( __( 'Daily Archives: %s', 'twentyfourteen' ), jdate(get_option('date_format'), strtotime($post->post_date)) );
-							} else {
-								printf( __( 'Daily Archives: %s', 'twentyfourteen' ), get_the_date() );
-							}
-						
+							printf( __( 'Daily Archives: %s', 'twentyfourteen' ), get_the_date() );
 
 						elseif ( is_month() ) :
-							if(function_exists('jdate')) {
-								printf( __( 'Monthly Archives: %s', 'twentyfourteen' ), jdate( 'F Y', strtotime($post->post_date)) );
-							} else {
-								printf( __( 'Monthly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyfourteen' ) ) );
-							}
+							printf( __( 'Monthly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyfourteen' ) ) );
 
 						elseif ( is_year() ) :
-							if(function_exists('jdate')) {
-								printf( __( 'Yearly Archives: %s', 'twentyfourteen' ), jdate( 'Y', strtotime($post->post_date)) );
-							} else {
-								printf( __( 'Yearly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyfourteen' ) ) );
-							}
+							printf( __( 'Yearly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyfourteen' ) ) );
 
 						else :
 							_e( 'Archives', 'twentyfourteen' );

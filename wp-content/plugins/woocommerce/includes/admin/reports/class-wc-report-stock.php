@@ -112,11 +112,10 @@ class WC_Report_Stock extends WP_List_Table {
 
 			case 'stock_status' :
 				if ( $product->is_in_stock() ) {
-					$stock_html = '<mark class="instock">' . __( 'In stock', 'woocommerce' ) . '</mark>';
+					echo '<mark class="instock">' . __( 'In stock', 'woocommerce' ) . '</mark>';
 				} else {
-					$stock_html = '<mark class="outofstock">' . __( 'Out of stock', 'woocommerce' ) . '</mark>';
+					echo '<mark class="outofstock">' . __( 'Out of stock', 'woocommerce' ) . '</mark>';
 				}
-				echo apply_filters( 'woocommerce_admin_stock_html', $stock_html, $product );
 			break;
 
 			case 'stock_level' :

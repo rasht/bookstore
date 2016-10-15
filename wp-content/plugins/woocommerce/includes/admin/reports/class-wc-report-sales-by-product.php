@@ -52,7 +52,7 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 	 */
 	public function get_chart_legend() {
 
-		if ( empty( $this->product_ids ) ) {
+		if ( ! $this->product_ids ) {
 			return array();
 		}
 
@@ -99,6 +99,7 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 				)
 			),
 			'query_type'   => 'get_var',
+			'order_types'  => wc_get_order_types( 'order-count' ),
 			'filter_range' => true
 		) ) );
 
@@ -109,7 +110,7 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 		);
 
 		$legend[] = array(
-			'title' => sprintf( __( '%s purchases for the selected items', 'woocommerce' ), '<strong>' . ( $total_items ) . '</strong>' ),
+			'title' => sprintf( __( '%s purchases for the selected items', 'woocommerce' ), '<strong>' . $total_items . '</strong>' ),
 			'color' => $this->chart_colours['item_count'],
 			'highlight_series' => 0
 		);
@@ -229,11 +230,20 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 							'name'            => 'order_item_qty'
 						)
 					),
+					'where_meta'   => array(
+						array(
+							'type'       => 'order_item_meta',
+							'meta_key'   => '_line_subtotal',
+							'meta_value' => '0',
+							'operator'   => '>'
+						)
+					),
 					'order_by'     => 'order_item_qty DESC',
 					'group_by'     => 'product_id',
 					'limit'        => 12,
 					'query_type'   => 'get_results',
-					'filter_range' => true
+					'filter_range' => true,
+					'order_types'  => wc_get_order_types( 'order-count' ),
 				) );
 
 				if ( $top_sellers ) {
@@ -281,7 +291,9 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 					'group_by'     => 'product_id',
 					'limit'        => 12,
 					'query_type'   => 'get_results',
-					'filter_range' => true
+					'filter_range' => true,
+					'order_types'  => wc_get_order_types( 'order-count' ),
+					'nocache' => true
 				) );
 
 				if ( $top_freebies ) {
@@ -388,7 +400,7 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 	public function get_main_chart() {
 		global $wp_locale;
 
-		if ( empty( $this->product_ids ) ) {
+		if ( ! $this->product_ids ) {
 			?>
 			<div class="chart-container">
 				<p class="chart-prompt"><?php _e( '&larr; Choose a product to view stats', 'woocommerce' ); ?></p>

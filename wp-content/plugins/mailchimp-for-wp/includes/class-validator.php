@@ -28,7 +28,7 @@ class MC4WP_Validator {
 	 * @param array $rules
 	 */
 	public function __construct( array $fields, array $rules = array() ) {
-		$this->fields = array_change_key_case( $fields, CASE_LOWER );
+		$this->fields = $fields;
 		$this->rules = $rules;
 	}
 
@@ -55,7 +55,8 @@ class MC4WP_Validator {
 
 		foreach( $this->rules as $rule ) {
 
-			$value = $this->get_field_value( $rule['field'], '' );
+			$value = isset( $this->fields[ $rule['field'] ] ) ? $this->fields[ $rule['field'] ] : '';
+
 			$method = 'is_' . $rule['rule'];
 
 			if( ! method_exists( $this, $method ) ) {
@@ -142,23 +143,6 @@ class MC4WP_Validator {
 	 */
 	public function is_email( $value ) {
 		return is_string( $value ) && is_email( $value );
-	}
-
-	/**
-	 * @param string $key
-	 * @param string $default
-	 *
-	 * @return mixed
-	 */
-	private function get_field_value( $key, $default = '' ) {
-		$key = strtolower( $key );
-		$location = &$this->fields;
-
-		foreach(explode('.', $key) as $step) {
-			$location = &$location[$step];
-		}
-
-		return $location === null ? $default : $location;
 	}
 
 }

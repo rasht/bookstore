@@ -11,12 +11,7 @@ class MC4WP_Admin_Messages {
 	/**
 	 * @var array
 	 */
-	protected $bag;
-
-	/**
-	 * @var bool
-	 */
-	protected $dirty = false;
+	protected $queue = array();
 
 	/**
 	 * Add hooks
@@ -26,18 +21,6 @@ class MC4WP_Admin_Messages {
 		register_shutdown_function( array( $this, 'save' ) );
 	}
 
-	private function load() {
-		if( is_null( $this->bag ) ) {
-			$this->bag = get_option( 'mc4wp_flash_messages', array() );
-		}
-	}
-
-	// empty flash bag
-	private function reset() {
-		$this->bag = array();
-		$this->dirty = true;
-	}
-
 	/**
 	 * Flash a message (shows on next pageload)
 	 *
@@ -45,27 +28,23 @@ class MC4WP_Admin_Messages {
 	 * @param string $type
 	 */
 	public function flash( $message, $type = 'success' ) {
-		$this->load();
-		$this->bag[] = array(
+		$this->queue[] = array(
 			'text' => $message,
 			'type' => $type
 		);
-		$this->dirty = true;
 	}
-
-
 
 	/**
 	 * Show queued flash messages
 	 */
 	public function show() {
-		$this->load();
+		$messages = get_option( 'mc4wp_flash_messages', array() );
 
-		foreach( $this->bag as $message ) {
+		foreach( $messages as $message ) {
 			echo sprintf( '<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $message['type'], $message['text'] );
 		}
 
-		$this->reset();
+		update_option( 'mc4wp_flash_messages', array() );
 	}
 
 	/**
@@ -74,8 +53,10 @@ class MC4WP_Admin_Messages {
 	 * @hooked `shutdown`
 	 */
 	public function save() {
-		if( $this->dirty ) {
-			update_option( 'mc4wp_flash_messages', $this->bag, false );
+
+		if( ! empty( $this->queue ) ) {
+			update_option( 'mc4wp_flash_messages', $this->queue );
 		}
+
 	}
 }

@@ -28,6 +28,7 @@ class WC_Webhook {
 	 *
 	 * @since 2.2
 	 * @param string|int $id
+	 * @return \WC_Webhook
 	 */
 	public function __construct( $id ) {
 
@@ -110,10 +111,10 @@ class WC_Webhook {
 		// webhooks are processed in the background by default
 		// so as to avoid delays or failures in delivery from affecting the
 		// user who triggered it
-		if ( apply_filters( 'woocommerce_webhook_deliver_async', true, $this, $arg ) ) {
+		if ( apply_filters( 'woocommerce_webhook_deliver_async', true, $this ) ) {
 
 			// deliver in background
-			wp_schedule_single_event( time(), 'woocommerce_deliver_webhook_async', array( $this->id, $arg ) );
+			wp_schedule_single_event( time(), 'woocommerce_deliver_webhook_async', array( $this->id, is_scalar( $arg ) ? $arg : 0 ) );
 
 		} else {
 
@@ -131,49 +132,46 @@ class WC_Webhook {
 	 * @return bool true if webhook should be delivered, false otherwise
 	 */
 	private function should_deliver( $arg ) {
-		$should_deliver = true;
-		$current_action = current_action();
 
 		// only active webhooks can be delivered
 		if ( 'active' != $this->get_status() ) {
-			$should_deliver = false;
+			return false;
+		}
+
+		$current_action = current_action();
 
 		// only deliver deleted event for coupons, orders, and products
-		} elseif ( 'delete_post' === $current_action && ! in_array( $GLOBALS['post_type'], array( 'shop_coupon', 'shop_order', 'product' ) ) ) {
-			$should_deliver = false;
+		if ( 'delete_post' == $current_action && ! in_array( $GLOBALS['post_type'], array( 'shop_coupon', 'shop_order', 'product' ) ) ) {
+			return false;
 
 		} elseif ( 'delete_user' == $current_action ) {
 			$user = get_userdata( absint( $arg ) );
 
 			// only deliver deleted customer event for users with customer role
 			if ( ! $user || ! in_array( 'customer', (array) $user->roles ) ) {
-				$should_deliver = false;
+				return false;
 			}
 
 		// check if the custom order type has chosen to exclude order webhooks from triggering along with its own webhooks.
 		} elseif ( 'order' == $this->get_resource() && ! in_array( get_post_type( absint( $arg ) ), wc_get_order_types( 'order-webhooks' ) ) ) {
-			$should_deliver = false;
+			return false;
 
-		} elseif ( 0 === strpos( $current_action, 'woocommerce_process_shop' ) || 0 === strpos( $current_action, 'woocommerce_process_product' ) ) {
-			// the `woocommerce_process_shop_*` and `woocommerce_process_product_*` hooks
-			// fire for create and update of products and orders, so check the post
-			// creation date to determine the actual event
+		} elseif ( 0 === strpos( $current_action, 'woocommerce_process_shop' ) ) {
+			// the `woocommerce_process_shop_*` hook fires for both updates
+			// and creation so check the post creation date to determine the actual event
 			$resource = get_post( absint( $arg ) );
 
 			// a resource is considered created when the hook is executed within 10 seconds of the post creation date
 			$resource_created = ( ( time() - 10 ) <= strtotime( $resource->post_date_gmt ) );
 
 			if ( 'created' == $this->get_event() && ! $resource_created ) {
-				$should_deliver = false;
+				return false;
 			} elseif ( 'updated' == $this->get_event() && $resource_created ) {
-				$should_deliver = false;
+				return false;
 			}
 		}
 
-		/*
-		 * Let other plugins intercept deliver for some messages queue like rabbit/zeromq
-		 */
-		return apply_filters( 'woocommerce_webhook_should_deliver', $should_deliver, $this, $arg );
+		return true;
 	}
 
 
@@ -181,13 +179,13 @@ class WC_Webhook {
 	 * Deliver the webhook payload using wp_safe_remote_request().
 	 *
 	 * @since 2.2
-	 * @param mixed $arg First hook argument.
+	 * @param mixed $arg first hook argument
 	 */
 	public function deliver( $arg ) {
 
 		$payload = $this->build_payload( $arg );
 
-		// Setup request args.
+		// setup request args
 		$http_args = array(
 			'method'      => 'POST',
 			'timeout'     => MINUTE_IN_SECONDS,
@@ -202,8 +200,7 @@ class WC_Webhook {
 
 		$http_args = apply_filters( 'woocommerce_webhook_http_args', $http_args, $arg, $this->id );
 
-		// Add custom headers.
-		$http_args['headers']['X-WC-Webhook-Source']      = home_url( '/' ); // Since 2.6.0.
+		// add custom headers
 		$http_args['headers']['X-WC-Webhook-Topic']       = $this->get_topic();
 		$http_args['headers']['X-WC-Webhook-Resource']    = $this->get_resource();
 		$http_args['headers']['X-WC-Webhook-Event']       = $this->get_event();
@@ -213,7 +210,7 @@ class WC_Webhook {
 
 		$start_time = microtime( true );
 
-		// Webhook away!
+		// webhook away!
 		$response = wp_safe_remote_request( $this->get_delivery_url(), $http_args );
 
 		$duration = round( microtime( true ) - $start_time, 5 );
@@ -341,7 +338,7 @@ class WC_Webhook {
 	 * @since 2.2
 	 * @param int $delivery_id previously created comment ID
 	 * @param array $request request data
-	 * @param array|WP_Error $response response data
+	 * @param array $response response data
 	 * @param float $duration request duration
 	 */
 	public function log_delivery( $delivery_id, $request, $response, $duration ) {
@@ -355,8 +352,7 @@ class WC_Webhook {
 		if ( is_wp_error( $response ) ) {
 			$response_code    = $response->get_error_code();
 			$response_message = $response->get_error_message();
-			$response_headers = array();
-			$response_body    = '';
+			$response_headers = $response_body = array();
 
 		} else {
 			$response_code    = wp_remote_retrieve_response_code( $response );
@@ -548,14 +544,11 @@ class WC_Webhook {
 				'wp_trash_post',
 			),
 			'customer.created' => array(
-				'user_register',
 				'woocommerce_created_customer',
-				'woocommerce_api_create_customer'
 			),
 			'customer.updated' => array(
 				'profile_update',
 				'woocommerce_api_edit_customer',
-				'woocommerce_customer_save_address',
 			),
 			'customer.deleted' => array(
 				'delete_user',

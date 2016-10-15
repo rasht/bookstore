@@ -78,7 +78,6 @@ class MC4WP_Dynamic_Content_Tags {
 		 *
 		 * @since 3.0
 		 * @param array $tags
-         * @ignore
 		 */
 		$this->tags = (array) apply_filters( 'mc4wp_dynamic_content_tags', $tags );
 
@@ -89,7 +88,6 @@ class MC4WP_Dynamic_Content_Tags {
 		 *
 		 * @since 3.0
 		 * @param array $tags
-         * @ignore
 		 */
 		$this->tags = (array) apply_filters( 'mc4wp_dynamic_content_tags_' . $context, $tags );
 		return $this->tags;

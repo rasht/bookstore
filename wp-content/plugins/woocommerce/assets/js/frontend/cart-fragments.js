@@ -8,14 +8,10 @@ jQuery( function( $ ) {
 
 	/* Storage Handling */
 	var $supports_html5_storage;
-	var cart_hash_key = wc_cart_fragments_params.ajax_url.toString() + '-wc_cart_hash';
-
 	try {
 		$supports_html5_storage = ( 'sessionStorage' in window && window.sessionStorage !== null );
 		window.sessionStorage.setItem( 'wc', 'test' );
 		window.sessionStorage.removeItem( 'wc' );
-		window.localStorage.setItem( 'wc', 'test' );
-		window.localStorage.removeItem( 'wc' );
 	} catch( err ) {
 		$supports_html5_storage = false;
 	}
@@ -30,8 +26,8 @@ jQuery( function( $ ) {
 	/** Set the cart hash in both session and local storage */
 	function set_cart_hash( cart_hash ) {
 		if ( $supports_html5_storage ) {
-			localStorage.setItem( cart_hash_key, cart_hash );
-			sessionStorage.setItem( cart_hash_key, cart_hash );
+			localStorage.setItem( 'wc_cart_hash', cart_hash );
+			sessionStorage.setItem( 'wc_cart_hash', cart_hash );
 		}
 	}
 
@@ -70,12 +66,8 @@ jQuery( function( $ ) {
 		var cart_timeout = null,
 			day_in_ms    = ( 24 * 60 * 60 * 1000 );
 
-		$( document.body ).bind( 'wc_fragment_refresh updated_wc_div', function() {
-			refresh_cart_fragment();
-		});
-
 		$( document.body ).bind( 'added_to_cart', function( event, fragments, cart_hash ) {
-			var prev_cart_hash = sessionStorage.getItem( cart_hash_key );
+			var prev_cart_hash = sessionStorage.getItem( 'wc_cart_hash' );
 
 			if ( prev_cart_hash === null || prev_cart_hash === undefined || prev_cart_hash === '' ) {
 				set_cart_creation_timestamp();
@@ -92,14 +84,14 @@ jQuery( function( $ ) {
 
 		// Refresh when storage changes in another tab
 		$( window ).on( 'storage onstorage', function ( e ) {
-			if ( cart_hash_key === e.originalEvent.key && localStorage.getItem( cart_hash_key ) !== sessionStorage.getItem( cart_hash_key ) ) {
-				refresh_cart_fragment();
+			if ( 'wc_cart_hash' === e.originalEvent.key && localStorage.getItem( 'wc_cart_hash' ) !== sessionStorage.getItem( 'wc_cart_hash' ) ) {
+				$.ajax( $fragment_refresh );
 			}
 		});
 
 		try {
 			var wc_fragments = $.parseJSON( sessionStorage.getItem( wc_cart_fragments_params.fragment_name ) ),
-				cart_hash    = sessionStorage.getItem( cart_hash_key ),
+				cart_hash    = sessionStorage.getItem( 'wc_cart_hash' ),
 				cookie_hash  = $.cookie( 'woocommerce_cart_hash'),
 				cart_created = sessionStorage.getItem( 'wc_cart_created' );
 

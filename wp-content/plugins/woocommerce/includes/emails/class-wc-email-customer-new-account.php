@@ -50,7 +50,7 @@ class WC_Email_Customer_New_Account extends WC_Email {
 	/**
 	 * Constructor.
 	 */
-	public function __construct() {
+	function __construct() {
 
 		$this->id             = 'customer_new_account';
 		$this->customer_email = true;
@@ -63,7 +63,7 @@ class WC_Email_Customer_New_Account extends WC_Email {
 		$this->subject        = __( 'Your account on {site_title}', 'woocommerce');
 		$this->heading        = __( 'Welcome to {site_title}', 'woocommerce');
 
-		// Call parent constructor
+		// Call parent constuctor
 		parent::__construct();
 	}
 
@@ -74,7 +74,7 @@ class WC_Email_Customer_New_Account extends WC_Email {
 	 * @param string $user_pass
 	 * @param bool $password_generated
 	 */
-	public function trigger( $user_id, $user_pass = '', $password_generated = false ) {
+	function trigger( $user_id, $user_pass = '', $password_generated = false ) {
 
 		if ( $user_id ) {
 			$this->object             = new WP_User( $user_id );
@@ -99,7 +99,7 @@ class WC_Email_Customer_New_Account extends WC_Email {
 	 * @access public
 	 * @return string
 	 */
-	public function get_content_html() {
+	function get_content_html() {
 		return wc_get_template_html( $this->template_html, array(
 			'email_heading'      => $this->get_heading(),
 			'user_login'         => $this->user_login,
@@ -118,7 +118,7 @@ class WC_Email_Customer_New_Account extends WC_Email {
 	 * @access public
 	 * @return string
 	 */
-	public function get_content_plain() {
+	function get_content_plain() {
 		return wc_get_template_html( $this->template_plain, array(
 			'email_heading'      => $this->get_heading(),
 			'user_login'         => $this->user_login,
